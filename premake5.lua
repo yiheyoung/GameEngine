@@ -89,14 +89,14 @@ project "Sandbox"
 			"GE_PLATFORM_WINDOWS"
 		}
 
-	filter "configurations:Debug"
+		filter "configurations:Debug"
 		defines "GE_DEBUG"
 		symbols "On"
 
-	filter "configurations:Release"
+		filter "configurations:Release"
 		defines "GE_RELEASE"
 		optimize "On"
 	
-	filter "configurations:Dist"
+		filter "configurations:Dist"
 		defines "GE_DIST"
 		optimize "On"

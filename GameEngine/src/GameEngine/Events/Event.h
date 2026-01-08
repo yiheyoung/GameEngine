@@ -1,8 +1,7 @@
 #pragma once
 
+#include "gepch.h"
 #include "GameEngine/Core.h"
-#include <string>
-#include <functional>
 
 namespace GameEngine {
 	/*The events we set in GameEngine now are currently blocking.

@@ -9,6 +9,11 @@ workspace "GameEngine"
 	}
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+IncludeDir = {}                                                  -- Create a table for include directories
+IncludeDir["GLFW"] = "GameEngine/vendor/GLFW/include"            -- Add GLFW include directory to the table
+
+-- Include the premake file for GLFW
+include "GameEngine/vendor/GLFW"
 
 project "GameEngine"
 	location "GameEngine"
@@ -30,7 +35,14 @@ project "GameEngine"
 	includedirs
 	{
 		"%{prj.name}/src",
-		"%{prj.name}/vendor/spdlog/include"
+		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.GLFW}"     -- Use the include directory from the table
+	}
+
+	links                                           -- Link static libraries
+	{
+		"GLFW",          -- Link the GLFW library                           
+		"opengl32.lib"   -- Link the OpenGL library for Windows
 	}
 
 	filter "system:windows"

@@ -1,6 +1,7 @@
 #pragma once
 
 #ifdef GE_PLATFORM_WINDOWS
+	// the __declspec is a Microsoft specific keyword used to specify storage-class information
 	#ifdef GE_BUILD_DLL
 		#define GAMEENGINE_API __declspec(dllexport)
 	#else
@@ -8,6 +9,25 @@
 	#endif
 #else
 	#error GameEngine only supports Windows!
+#endif
+
+#ifdef GE_ENABLE_ASSERTS
+	// the x is the condition to be evaluated, the {0} is the message to be printed if the assertion fails
+	// the __VA_ARGS__ is a special macro that allows us to pass a variable number of arguments to the macro
+	// we use __debugbreak() to break into the debugger if the assertion fails
+	#define GE_CORE_ASSERT(x, ...)\
+		{ if(!(x)) {\
+			GE_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__);\
+			__debugbreak();}\
+		}
+	#define GE_ASSERT(x, ...)\
+		{ if(!(x)) {\
+			GE_ERROR("Assertion Failed: {0}", __VA_ARGS__);\
+			__debugbreak();}\
+		}
+#else
+	#define GE_CORE_ASSERT(x, ...)
+	#define GE_ASSERT(x, ...)
 #endif
 
 #define BIT(x) (1 << x)

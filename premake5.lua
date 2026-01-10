@@ -49,6 +49,7 @@ project "GameEngine"
 		cppdialect "C++17"
 		staticruntime "On"
 		systemversion "latest"
+		buildoptions { "/utf-8" }
 		defines
 		{
 			"GE_PLATFORM_WINDOWS",
@@ -100,6 +101,7 @@ project "Sandbox"
 		cppdialect "C++17"
 		staticruntime "On"
 		systemversion "latest"
+		buildoptions { "/utf-8" }
 		defines
 		{
 			"GE_PLATFORM_WINDOWS"

@@ -11,9 +11,12 @@ workspace "GameEngine"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}                                                  -- Create a table for include directories
 IncludeDir["GLFW"] = "GameEngine/vendor/GLFW/include"            -- Add GLFW include directory to the table
+IncludeDir["Glad"] = "GameEngine/vendor/Glad/include"            -- Add Glad include directory to the table
 
 -- Include the premake file for GLFW
 include "GameEngine/vendor/GLFW"
+-- Include the premake file for Glad
+include "GameEngine/vendor/Glad"
 
 project "GameEngine"
 	location "GameEngine"
@@ -36,12 +39,14 @@ project "GameEngine"
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
-		"%{IncludeDir.GLFW}"     -- Use the include directory from the table
+		"%{IncludeDir.GLFW}",     -- Use the include directory from the table
+		"%{IncludeDir.Glad}"      -- Use the include directory from the table
 	}
 
 	links                                           -- Link static libraries
 	{
-		"GLFW",          -- Link the GLFW library                           
+		"GLFW",          -- Link the GLFW library
+		"Glad",          -- Link the Glad library
 		"opengl32.lib"   -- Link the OpenGL library for Windows
 	}
 
@@ -53,7 +58,8 @@ project "GameEngine"
 		defines
 		{
 			"GE_PLATFORM_WINDOWS",
-			"GE_BUILD_DLL"
+			"GE_BUILD_DLL",
+			"GE_CORE_ASSERT"
 		}
 		postbuildcommands
 		{
@@ -107,7 +113,8 @@ project "Sandbox"
 		buildoptions { "/utf-8" }
 		defines
 		{
-			"GE_PLATFORM_WINDOWS"
+			"GE_PLATFORM_WINDOWS",
+			"GE_ASSERT"
 		}
 
 		filter "configurations:Debug"

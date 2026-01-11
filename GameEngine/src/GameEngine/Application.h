@@ -18,6 +18,9 @@ namespace GameEngine {
 
 		void PushLayer(Layer* layer); // Add a layer to the application
 		void PushOverlay(Layer* overlay); // Add an overlay to the application
+
+		inline Window& GetWindow() { return *m_Window; } // Get the application window
+		inline static Application& Get() { return *s_Instance; } // Get the reference to the application instance
 	private:
 		bool OnWindowClose(WindowCloseEvent& e); // Window close event handler
 
@@ -25,6 +28,8 @@ namespace GameEngine {
 		bool m_Running = true;
 
 		LayerStack m_LayerStack;
+	private:
+		static Application* s_Instance;     // Static instance of the application, it is a singleton
 	};
 	// To be defined in CLIENT
 	Application* CreateApplication();

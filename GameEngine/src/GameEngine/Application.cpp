@@ -8,8 +8,14 @@
 
 namespace GameEngine {
 #define BIND_EVENT_FN(fn) std::bind(&Application::fn, this, std::placeholders::_1)
+	Application* Application::s_Instance = nullptr;     // static member need to be defined in cpp file
+	
 	Application::Application()
 	{
+		// ensure only one instance of Application exists (singleton pattern)
+		GE_CORE_ASSERT(!s_Instance, "Application already exists!");
+		s_Instance = this;
+
 		// create the window using the Window class's static Create method
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
@@ -58,11 +64,13 @@ namespace GameEngine {
 	void Application::PushLayer(Layer* layer)
 	{
 		m_LayerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 
 	void Application::PushOverlay(Layer* overlay)
 	{
 		m_LayerStack.PushLayer(overlay);
+		overlay->OnAttach();
 	}
 
 	bool Application::OnWindowClose(WindowCloseEvent& e)

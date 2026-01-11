@@ -12,11 +12,14 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}                                                  -- Create a table for include directories
 IncludeDir["GLFW"] = "GameEngine/vendor/GLFW/include"            -- Add GLFW include directory to the table
 IncludeDir["Glad"] = "GameEngine/vendor/Glad/include"            -- Add Glad include directory to the table
+IncludeDir["ImGui"] = "GameEngine/vendor/imgui"              -- Add ImGui include directory to the table
 
 -- Include the premake file for GLFW
 include "GameEngine/vendor/GLFW"
 -- Include the premake file for Glad
 include "GameEngine/vendor/Glad"
+-- Include the premake file for ImGui
+include "GameEngine/vendor/imgui"
 
 project "GameEngine"
 	location "GameEngine"
@@ -40,13 +43,15 @@ project "GameEngine"
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",     -- Use the include directory from the table
-		"%{IncludeDir.Glad}"      -- Use the include directory from the table
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.ImGui}"
 	}
 
 	links                                           -- Link static libraries
 	{
 		"GLFW",          -- Link the GLFW library
 		"Glad",          -- Link the Glad library
+		"ImGui",         -- Link the ImGui library
 		"opengl32.lib"   -- Link the OpenGL library for Windows
 	}
 

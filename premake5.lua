@@ -65,8 +65,7 @@ project "GameEngine"
 		defines
 		{
 			"GE_PLATFORM_WINDOWS",
-			"GE_BUILD_DLL",
-			"GE_CORE_ASSERT"
+			"GE_BUILD_DLL"
 		}
 		postbuildcommands
 		{
@@ -120,8 +119,7 @@ project "Sandbox"
 		buildoptions { "/utf-8" }
 		defines
 		{
-			"GE_PLATFORM_WINDOWS",
-			"GE_ASSERT"
+			"GE_PLATFORM_WINDOWS"
 		}
 
 		filter "configurations:Debug"

@@ -11,6 +11,10 @@
 	#error GameEngine only supports Windows!
 #endif
 
+#ifdef GE_DEBUG
+	#define GE_ENABLE_ASSERTS
+#endif
+
 #ifdef GE_ENABLE_ASSERTS
 	// the x is the condition to be evaluated, the {0} is the message to be printed if the assertion fails
 	// the __VA_ARGS__ is a special macro that allows us to pass a variable number of arguments to the macro

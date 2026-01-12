@@ -36,7 +36,8 @@ namespace GameEngine {
 		int m_RepeatCount;
 	};
 
-	class GAMEENGINE_API KeyReleasedEvent : public KeyEvent {
+	class GAMEENGINE_API KeyReleasedEvent : public KeyEvent
+	{
 	public:
 		KeyReleasedEvent(int keycode)
 			: KeyEvent(keycode) {}
@@ -49,5 +50,19 @@ namespace GameEngine {
 		}
 
 		EVENT_CLASS_TYPE(KeyReleased)
+	};
+
+	class GAMEENGINE_API KeyTypedEvent : public KeyEvent
+	{
+	public:
+		KeyTypedEvent(int keycode)
+			: KeyEvent(keycode) {}
+		std::string ToString() const override
+		{
+			std::stringstream ss;
+			ss << "KeyTypedEvent: " << m_KeyCode;
+			return ss.str();
+		}
+		EVENT_CLASS_TYPE(KeyTyped)
 	};
 }

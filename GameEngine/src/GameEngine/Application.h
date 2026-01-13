@@ -3,9 +3,10 @@
 #include "Core.h"
 #include "Window.h"
 
-#include "GameEngine/LayerStack.h"
-#include "GameEngine/Events/Event.h"
+#include "LayerStack.h"
+#include "Events/Event.h"
 #include "GameEngine/Events/ApplicationEvent.h"
+#include "GameEngine/ImGui/ImGuiLayer.h"
 
 namespace GameEngine {
 	class GAMEENGINE_API Application {
@@ -24,6 +25,7 @@ namespace GameEngine {
 	private:
 		bool OnWindowClose(WindowCloseEvent& e); // Window close event handler
 
+		ImGuiLayer* m_ImGuiLayer;
 		std::unique_ptr<Window> m_Window;    // unique_ptr to manage window memory
 		bool m_Running = true;
 

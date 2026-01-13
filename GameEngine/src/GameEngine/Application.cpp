@@ -5,7 +5,7 @@
 #include "GameEngine/Log.h"
 #include "Input.h"
 
-#include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
 namespace GameEngine {
 #define BIND_EVENT_FN(fn) std::bind(&Application::fn, this, std::placeholders::_1)
@@ -20,6 +20,9 @@ namespace GameEngine {
 		// create the window using the Window class's static Create method
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+
+		m_ImGuiLayer = new ImGuiLayer();
+		PushOverlay(m_ImGuiLayer);
 	}
 
 	Application::~Application()
@@ -58,6 +61,14 @@ namespace GameEngine {
 			{
 				layer->OnUpdate();
 			}
+
+			m_ImGuiLayer->Begin();
+			for (Layer* layer : m_LayerStack)
+			{
+				layer->OnImGuiRender();
+			}
+			m_ImGuiLayer->End();
+
 			m_Window->OnUpdate();
 		}
 	}

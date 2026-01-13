@@ -69,7 +69,8 @@ project "GameEngine"
 		defines
 		{
 			"GE_PLATFORM_WINDOWS",
-			"GE_BUILD_DLL"
+			"GE_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
 		}
 		postbuildcommands
 		{

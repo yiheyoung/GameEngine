@@ -1,5 +1,7 @@
 #include "GameEngine.h"
 
+#include "imgui/imgui.h"
+
 class ExampleLayer : public GameEngine::Layer
 {
 public:
@@ -10,6 +12,14 @@ public:
 	{
 		// Update logic for the layer
 	}
+
+	void OnImGuiRender()
+	{
+		ImGui::Begin("Test");
+		ImGui::Text("Hello World");
+		ImGui::End();
+	}
+
 	void OnEvent(GameEngine::Event& event) override
 	{
 		// Event handling logic for the layer

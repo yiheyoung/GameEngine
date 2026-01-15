@@ -1,14 +1,17 @@
 #pragma once
 
 #ifdef GE_PLATFORM_WINDOWS
-	// the __declspec is a Microsoft specific keyword used to specify storage-class information
-	#ifdef GE_BUILD_DLL
-		#define GAMEENGINE_API __declspec(dllexport)
+	#if GE_DYNAMIC_LINK
+		#ifdef GE_BUILD_DLL
+			#define GAMEENGINE_API __declspec(dllexport)
+		#else
+			#define GAMEENGINE_API __declspec(dllimport)
+		#endif
 	#else
-		#define GAMEENGINE_API __declspec(dllimport)
+		#define GAMEENGINE_API
 	#endif
 #else
-	#error GameEngine only supports Windows!
+		#error GameEngine only supports Windows!
 #endif
 
 #ifdef GE_DEBUG

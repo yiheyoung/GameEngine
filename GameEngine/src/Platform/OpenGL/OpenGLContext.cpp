@@ -16,6 +16,11 @@ void GameEngine::OpenGLContext::Init()
 	// load OpenGL rendering functions using Glad
 	int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 	GE_CORE_ASSERT(status, "Failed to initialize Glad!");
+
+	GE_CORE_INFO("OpenGL Info:");
+	GE_CORE_INFO(" Vendor: {0}", (const char*)glGetString(GL_VENDOR));
+	GE_CORE_INFO(" Render: {0}", (const char*)glGetString(GL_RENDERER));
+	GE_CORE_INFO(" Version: {0}", (const char*)glGetString(GL_VERSION));
 }
 
 void GameEngine::OpenGLContext::SwapBuffers()

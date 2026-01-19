@@ -7,7 +7,7 @@
 #include "Events/Event.h"
 #include "GameEngine/Events/ApplicationEvent.h"
 #include "GameEngine/ImGui/ImGuiLayer.h"
-#include "GameEngine/Renderer/VetexArray.h"
+#include "GameEngine/Renderer/VertexArray.h"
 
 #include "Renderer/Shader.h"
 #include "Renderer/Buffer.h"

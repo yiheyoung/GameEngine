@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameEngine/Renderer/VetexArray.h"
+#include "GameEngine/Renderer/VertexArray.h"
 
 namespace GameEngine
 {

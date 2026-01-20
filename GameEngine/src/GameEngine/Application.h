@@ -8,6 +8,7 @@
 #include "GameEngine/Events/ApplicationEvent.h"
 #include "GameEngine/ImGui/ImGuiLayer.h"
 #include "GameEngine/Renderer/VertexArray.h"
+#include "GameEngine/Renderer/OrthographicCamera.h"
 
 #include "Renderer/Shader.h"
 #include "Renderer/Buffer.h"
@@ -40,6 +41,8 @@ namespace GameEngine {
 
 		std::shared_ptr<Shader> m_BlueShader;
 		std::shared_ptr<VertexArray> m_SquareVA;
+
+		OrthographicCamera m_Camera;
 	private:
 		static Application* s_Instance;     // Static instance of the application, it is a singleton
 	};

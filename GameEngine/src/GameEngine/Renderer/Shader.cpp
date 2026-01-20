@@ -3,6 +3,7 @@
 
 
 #include <glad/glad.h>
+#include <glm/gtc/type_ptr.hpp>
 
 
 
@@ -115,6 +116,12 @@ namespace GameEngine {
 	void Shader::UnBind() const
 	{
 		glUseProgram(0);
+	}
+
+	void Shader::UploadUniformMat4(const std::string& name, const glm::mat4& matrix)
+	{
+		GLint locatino = glGetUniformLocation(m_RendererId, name.c_str());
+		glUniformMatrix4fv(locatino, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 
 

@@ -12,6 +12,16 @@
 
 #include "GameEngine/ImGui/ImGuiLayer.h"
 
+// ---Renderer-----------------
+#include "GameEngine/Renderer/Renderer.h"
+#include "GameEngine/Renderer/RenderCommand.h"
+
+#include "GameEngine/Renderer/Buffer.h"
+#include "GameEngine/Renderer/Shader.h"
+#include "GameEngine/Renderer/VertexArray.h"
+
+// --------------------------------
+
 // ---Entry Point-----------------
 #include "GameEngine/EntryPoint.h"
 // --------------------------------

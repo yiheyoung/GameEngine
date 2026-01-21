@@ -4,17 +4,9 @@
 
 class ExampleLayer : public GameEngine::Layer
 {
-private:
-	std::shared_ptr<GameEngine::Shader> m_Shader;
-	std::shared_ptr<GameEngine::VertexArray> m_VertexArray;
-
-	std::shared_ptr<GameEngine::Shader> m_BlueShader;
-	std::shared_ptr<GameEngine::VertexArray> m_SquareVA;
-
-	GameEngine::OrthographicCamera m_Camera;
 public:
 	ExampleLayer()
-		: Layer("Example Layer"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f)
+		: Layer("Example Layer"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f), m_CameraRotation(0.0f)
 	{
 		// triangle setup
 		m_VertexArray.reset(GameEngine::VertexArray::Create());
@@ -128,11 +120,27 @@ public:
 	void OnUpdate() override
 	{
 		// Update logic for the layer
+		if (GameEngine::Input::IsKeyPressed(GE_KEY_LEFT))
+			m_CameraPosition.x -= m_CameraMoveSpeed;
+		else if (GameEngine::Input::IsKeyPressed(GE_KEY_RIGHT))
+			m_CameraPosition.x += m_CameraMoveSpeed;
+
+		if (GameEngine::Input::IsKeyPressed(GE_KEY_UP))
+			m_CameraPosition.y += m_CameraMoveSpeed;
+		else if (GameEngine::Input::IsKeyPressed(GE_KEY_DOWN))
+			m_CameraPosition.y -= m_CameraMoveSpeed;
+
+		if (GameEngine::Input::IsKeyPressed(GE_KEY_Q))
+			m_CameraRotation += m_CameraRotationSpeed;
+		else if (GameEngine::Input::IsKeyPressed(GE_KEY_E))
+			m_CameraRotation -= m_CameraRotationSpeed;
+
+
 		GameEngine::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 		GameEngine::RenderCommand::Clear();
 
-		m_Camera.SetPosition({ 0.5f, 0.5f, 0.0f });
-		m_Camera.SetRotation(45.0f);
+		m_Camera.SetPosition(m_CameraPosition);
+		m_Camera.SetRotation(m_CameraRotation);
 
 		GameEngine::Renderer::BeginScene(m_Camera);
 
@@ -143,7 +151,7 @@ public:
 		GameEngine::Renderer::EndScene();
 	}
 
-	void OnImGuiRender()
+	void OnImGuiRender() override
 	{
 		ImGui::Begin("Test");
 		ImGui::Text("Hello World");
@@ -154,6 +162,19 @@ public:
 	{
 		// Event handling logic for the layer
 	}
+private:
+	std::shared_ptr<GameEngine::Shader> m_Shader;
+	std::shared_ptr<GameEngine::VertexArray> m_VertexArray;
+
+	std::shared_ptr<GameEngine::Shader> m_BlueShader;
+	std::shared_ptr<GameEngine::VertexArray> m_SquareVA;
+
+	GameEngine::OrthographicCamera m_Camera;
+
+	glm::vec3 m_CameraPosition;
+	float m_CameraRotation;
+	float m_CameraMoveSpeed = 0.02f;
+	float m_CameraRotationSpeed = 2.0f;
 };
 
 class Sandbox : public GameEngine::Application

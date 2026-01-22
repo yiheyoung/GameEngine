@@ -8,6 +8,8 @@
 #include "GameEngine/Events/ApplicationEvent.h"
 #include "GameEngine/ImGui/ImGuiLayer.h"
 
+#include "GameEngine/Core/Timestep.h"
+
 namespace GameEngine {
 	class GAMEENGINE_API Application {
 	public:
@@ -26,10 +28,11 @@ namespace GameEngine {
 		bool OnWindowClose(WindowCloseEvent& e); // Window close event handler
 
 		ImGuiLayer* m_ImGuiLayer;
+		LayerStack m_LayerStack;
+
 		std::unique_ptr<Window> m_Window;    // unique_ptr to manage window memory
 		bool m_Running = true;
-
-		LayerStack m_LayerStack;
+		float m_LastFrameTime = 0.0f;
 	private:
 		static Application* s_Instance;     // Static instance of the application, it is a singleton
 	};

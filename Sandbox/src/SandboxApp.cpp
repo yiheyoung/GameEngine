@@ -1,7 +1,10 @@
 #include "GameEngine.h"
 
+#include "Platform/OpenGL/OpenGLShader.h"
+
 #include "imgui/imgui.h"
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 class ExampleLayer : public GameEngine::Layer
 {
@@ -88,9 +91,9 @@ public:
 			}
 		)";
 
-		m_Shader.reset(new GameEngine::Shader(vertexSrc, fragmentSrc));
+		m_Shader.reset(GameEngine::Shader::Create(vertexSrc, fragmentSrc));
 
-		std::string blueVertexSrc = R"(
+		std::string flatColorShaderVertexSrc = R"(
 			#version 330 core
 			
 			layout(location = 0) in vec3 a_Position;
@@ -107,17 +110,20 @@ public:
 			}
 		)";
 
-		std::string blueFragmentSrc = R"(
+		std::string flatColorShaderFragmentSrc = R"(
 			#version 330 core
 			
 			layout(location = 0) out vec4 color;
+
+			uniform vec3 u_Color;
+
 			void main()
 			{
-				color = vec4(0.2, 0.3, 0.8, 1.0);
+				color = vec4(u_Color, 1.0);
 			}
 		)";
 
-		m_BlueShader.reset(new GameEngine::Shader(blueVertexSrc, blueFragmentSrc));
+		m_FlatColorShader.reset(GameEngine::Shader::Create(flatColorShaderVertexSrc, flatColorShaderFragmentSrc));
 	}
 	void OnUpdate(GameEngine::Timestep& ts) override
 	{
@@ -147,13 +153,16 @@ public:
 		GameEngine::Renderer::BeginScene(m_Camera);
 
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+
+		m_FlatColorShader->Bind();
+		std::dynamic_pointer_cast<GameEngine::OpenGLShader>(m_FlatColorShader)->UploadUniformFloat3("u_Color", m_SquareColor);
 		for (int y = 0; y < 20; y++)
 		{
 			for (int x = 0; x < 20; x++)
 			{
 				glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
 				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
-				GameEngine::Renderer::Submit(m_BlueShader, m_SquareVA, transform);
+				GameEngine::Renderer::Submit(m_FlatColorShader, m_SquareVA, transform);
 			}
 		}
 
@@ -164,8 +173,8 @@ public:
 
 	void OnImGuiRender() override
 	{
-		ImGui::Begin("Test");
-		ImGui::Text("Hello World");
+		ImGui::Begin("Settings");
+		ImGui::ColorEdit3("Square Color", glm::value_ptr(m_SquareColor));
 		ImGui::End();
 	}
 
@@ -177,7 +186,7 @@ private:
 	std::shared_ptr<GameEngine::Shader> m_Shader;
 	std::shared_ptr<GameEngine::VertexArray> m_VertexArray;
 
-	std::shared_ptr<GameEngine::Shader> m_BlueShader;
+	std::shared_ptr<GameEngine::Shader> m_FlatColorShader;
 	std::shared_ptr<GameEngine::VertexArray> m_SquareVA;
 
 	GameEngine::OrthographicCamera m_Camera;
@@ -186,6 +195,8 @@ private:
 	float m_CameraRotation;
 	float m_CameraMoveSpeed = 4.0f;
 	float m_CameraRotationSpeed = 180.0f;
+
+	glm::vec3 m_SquareColor = { 0.2f, 0.3f, 0.8f };
 };
 
 class Sandbox : public GameEngine::Application

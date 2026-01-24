@@ -8,14 +8,11 @@ namespace GameEngine
 	class Shader
 	{
 	public:
-		Shader(const std::string& vertexSrc, const std::string& fragmentSrc);
-		~Shader();
+		virtual ~Shader() = default;   // default virtual destructor
 
-		void Bind() const;
-		void UnBind() const;
-
-		void UploadUniformMat4(const std::string& name, const glm::mat4& matrix);
-	private:
-		uint32_t m_RendererId;
+		virtual void Bind() const = 0;
+		virtual void UnBind() const = 0;
+		// factory method to create Shader instances
+		static Shader* Create(const std::string& vertexSrc, const std::string& fragmentSrc);
 	};
 }

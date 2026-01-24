@@ -16,6 +16,7 @@ IncludeDir["GLFW"] = "GameEngine/vendor/GLFW/include"            -- Add GLFW inc
 IncludeDir["Glad"] = "GameEngine/vendor/Glad/include"            -- Add Glad include directory to the table
 IncludeDir["ImGui"] = "GameEngine/vendor/imgui"                  -- Add ImGui include directory to the table
 IncludeDir["glm"] = "GameEngine/vendor/glm"                      -- Add glm include directory to the table
+IncludeDir["stb_image"] = "GameEngine/vendor/stb_image"          -- Add stb_image include directory to the table
 
 -- Include the premake file for GLFW
 include "GameEngine/vendor/GLFW"
@@ -41,6 +42,8 @@ project "GameEngine"
 	{
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/stb_image/**.h",
+		"%{prj.name}/vendor/stb_image/**.cpp",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
 		"%{prj.name}/vendor/glm/glm/**.inl"
 	}
@@ -57,7 +60,8 @@ project "GameEngine"
 		"%{IncludeDir.GLFW}",     -- Use the include directory from the table
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb_image}"
 	}
 
 	links                                           -- Link static libraries

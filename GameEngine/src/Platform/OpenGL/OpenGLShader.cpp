@@ -87,7 +87,9 @@ namespace GameEngine {
 	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources)
 	{
 		GLuint program = glCreateProgram();
-		std::vector<GLuint> glShaderIDs(shaderSources.size()); // the vector to store shader ids
+		GE_CORE_ASSERT(shaderSources.size() <= 2, "We only support 2 shaders at most!");
+		int glShaderIndex = 0;
+		std::array<GLuint, 2> glShaderIDs;
 		for (auto& kv : shaderSources)
 		{
 			GLenum type = kv.first;
@@ -120,7 +122,7 @@ namespace GameEngine {
 			}
 
 			glAttachShader(program, shader);
-			glShaderIDs.push_back(shader); // push the shader id into the vector
+			glShaderIDs[glShaderIndex++] = shader; // push the shader id into the vector
 		}
 
 		m_RendererId = program; // initialize the program id

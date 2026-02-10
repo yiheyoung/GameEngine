@@ -6,7 +6,11 @@ namespace GameEngine
 {
 	class GAMEENGINE_API Input
 	{
+	protected:
+		Input() = default; // protected default constructor to prevent direct instantiation
 	public:
+		Input(const Input&) = delete; // delete copy constructor
+		Input& operator=(const Input&) = delete; // delete copy assignment operator
 		inline static bool IsKeyPressed(int keycode) { return s_Instance->IsKeyPressedImpl(keycode); }
 		inline static bool IsMouseButtonPressed(int button) { return s_Instance->IsMouseButtonPressedImpl(button); }
 		inline static std::pair<float, float> GetMousePos() { return s_Instance->GetMousePosImpl(); }

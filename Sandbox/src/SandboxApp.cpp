@@ -10,7 +10,7 @@ class ExampleLayer : public GameEngine::Layer
 {
 public:
 	ExampleLayer()
-		: Layer("Example Layer"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f), m_CameraRotation(0.0f)
+		: Layer("Example Layer"), m_CameraController(1280.0f / 720.0f)
 	{
 		// triangle setup
 		m_VertexArray.reset(GameEngine::VertexArray::Create());
@@ -137,29 +137,13 @@ public:
 	void OnUpdate(GameEngine::Timestep& ts) override
 	{
 		// Update logic for the layer
-		if (GameEngine::Input::IsKeyPressed(GE_KEY_LEFT))
-			m_CameraPosition.x -= m_CameraMoveSpeed * ts;
-		else if (GameEngine::Input::IsKeyPressed(GE_KEY_RIGHT))
-			m_CameraPosition.x += m_CameraMoveSpeed * ts;
-
-		if (GameEngine::Input::IsKeyPressed(GE_KEY_UP))
-			m_CameraPosition.y += m_CameraMoveSpeed * ts;
-		else if (GameEngine::Input::IsKeyPressed(GE_KEY_DOWN))
-			m_CameraPosition.y -= m_CameraMoveSpeed * ts;
-
-		if (GameEngine::Input::IsKeyPressed(GE_KEY_Q))
-			m_CameraRotation += m_CameraRotationSpeed * ts;
-		else if (GameEngine::Input::IsKeyPressed(GE_KEY_E))
-			m_CameraRotation -= m_CameraRotationSpeed * ts;
+		m_CameraController.OnUpdate(ts);
 
 
 		GameEngine::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 		GameEngine::RenderCommand::Clear();
 
-		m_Camera.SetPosition(m_CameraPosition);
-		m_Camera.SetRotation(m_CameraRotation);
-
-		GameEngine::Renderer::BeginScene(m_Camera);
+		GameEngine::Renderer::BeginScene(m_CameraController.GetCamera());
 
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
@@ -195,6 +179,7 @@ public:
 	void OnEvent(GameEngine::Event& event) override
 	{
 		// Event handling logic for the layer
+		m_CameraController.OnEvent(event);
 	}
 private:
 	GameEngine::ShaderLibrary m_ShaderLibrary;
@@ -206,12 +191,7 @@ private:
 
 	GameEngine::Ref<GameEngine::Texture2D> m_Texture, m_ChernoLogoTexture;
 
-	GameEngine::OrthographicCamera m_Camera;
-
-	glm::vec3 m_CameraPosition;
-	float m_CameraRotation;
-	float m_CameraMoveSpeed = 4.0f;
-	float m_CameraRotationSpeed = 180.0f;
+	GameEngine::OrthographicCameraController m_CameraController;
 
 	glm::vec3 m_SquareColor = { 0.2f, 0.3f, 0.8f };
 };
